@@ -39,71 +39,113 @@ CREATE TABLE interactions (
     interaction_type TEXT,
     interaction_date DATE
 );
+
+```
+---
+
+### 🔍 Analysis Queries (SQL)
+
+The following six queries were executed to derive key performance and demographic insights:
+
+#### Q1: Total interactions for 'Diwali Special' campaign?
+
+```
+SELECT
+    COUNT(*)
+FROM
+    interactions
+WHERE
+    campaign_id = 'C2';
 ```
 
-## 🔎 Analysis Queries (SQL)
+#### Q2: Which campaign had the most conversions? (Using Group By & Ordering)
 
-```sql
--- Q1: Total interactions for 'Diwali Special' campaign
-SELECT COUNT(*)
-FROM interactions
-WHERE campaign_id = 'C2';
 ```
-
-```sql
--- Q2: Campaign with the most conversions
-SELECT campaign_id, COUNT(campaign_id) AS conversion_count
-FROM interactions
-WHERE interaction_type = 'Conversion'
-GROUP BY campaign_id
-ORDER BY conversion_count DESC
+SELECT
+    campaign_id,
+    COUNT(campaign_id) AS conversion_count
+FROM
+    interactions
+WHERE
+    interaction_type = 'Conversion'
+GROUP BY
+    campaign_id
+ORDER BY
+    conversion_count DESC
 LIMIT 1;
 ```
 
-```sql
--- Q3: Age group with the most conversions
-SELECT u.age_group, COUNT(i.interaction_id) AS conversion_count
-FROM interactions AS i
-JOIN users AS u ON i.user_id = u.user_id
-WHERE i.interaction_type = 'Conversion'
-GROUP BY u.age_group
-ORDER BY conversion_count DESC
+#### Q3: Which age group generated the most conversions? (Using JOIN)
+
+```
+SELECT
+    u.age_group,
+    COUNT(i.interaction_id) AS conversion_count
+FROM
+    interactions AS i
+JOIN
+    users AS u ON i.user_id = u.user_id
+WHERE
+    i.interaction_type = 'Conversion'
+GROUP BY
+    u.age_group
+ORDER BY
+    conversion_count DESC
 LIMIT 1;
 ```
 
-```sql
--- Q4: City with the highest total interactions
-SELECT u.city, COUNT(i.interaction_type) AS interaction_total
-FROM interactions AS i
-JOIN users AS u ON i.user_id = u.user_id
-GROUP BY u.city
-ORDER BY interaction_total DESC
+#### Q4: Which city had the highest number of total interactions? (Using JOIN and Aggregation)
+
+```
+SELECT
+    u.city,
+    COUNT(i.interaction_type) AS interaction_total
+FROM
+    interactions AS i
+JOIN
+    users AS u ON i.user_id = u.user_id
+GROUP BY
+    u.city
+ORDER BY
+    interaction_total DESC
 LIMIT 1;
 ```
-
+---
 ![SQL Query Results](Marketing-Campaign-Analysis-SQL/SQL_query_with_result.png)
+---
+#### Q5: Who are the top 3 most engaged users? (Using Join and Ordering)
 
-```sql
--- Q5: Top 3 most engaged users
-SELECT u.user_id, COUNT(i.interaction_type) AS interaction_count
-FROM interactions AS i
-JOIN users AS u ON i.user_id = u.user_id
-GROUP BY u.user_id
-ORDER BY interaction_count DESC
+```
+SELECT
+    u.user_id,
+    COUNT(i.interaction_type) AS interaction_count
+FROM
+    interactions AS i
+JOIN
+    users AS u ON i.user_id = u.user_id
+GROUP BY
+    u.user_id
+ORDER BY
+    interaction_count DESC
 LIMIT 3;
 ```
 
-```sql
--- Q6: Conversion rate for 'Diwali Special' campaign
+#### Q6: What was the conversion rate for the 'Diwali Special' campaign? (Using CTE and Aggregation)
+
+```
 WITH CampaignMetrics AS (
     SELECT
         SUM(CASE WHEN interaction_type = 'Click' THEN 1 ELSE 0 END) AS total_clicks,
         SUM(CASE WHEN interaction_type = 'Conversion' THEN 1 ELSE 0 END) AS total_conversions
-    FROM interactions
-    WHERE campaign_id = 'C2'
+    FROM
+        interactions
+    WHERE
+        campaign_id = 'C2'
 )
-SELECT total_conversions * 1.0 / total_clicks AS conversion_rate
-FROM CampaignMetrics;
+SELECT
+    total_conversions * 1.0 / total_clicks AS conversion_rate
+FROM
+    CampaignMetrics;
 ```
 
 ## Key Business Insights
