@@ -40,7 +40,6 @@ CREATE TABLE interactions (
     interaction_date DATE
 );
 ```
-![SQL Query Results](Marketing-Campaign-Analysis-SQL/SQL_query_with_result.png)
 
 ## 🔎 Analysis Queries (SQL)
 
@@ -81,6 +80,8 @@ GROUP BY u.city
 ORDER BY interaction_total DESC
 LIMIT 1;
 ```
+
+![SQL Query Results](Marketing-Campaign-Analysis-SQL/SQL_query_with_result.png)
 
 ```sql
 -- Q5: Top 3 most engaged users
