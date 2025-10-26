@@ -1,0 +1,16 @@
+interaction_id,user_id,campaign_id,interaction_type,interaction_date
+1,101,C1,Click,2025-06-05
+2,102,C1,View,2025-06-06
+3,103,C2,View,2025-10-16
+4,104,C2,Click,2025-10-17
+5,105,C2,Click,2025-10-18
+6,106,C3,View,2025-12-21
+7,101,C1,Conversion,2025-06-07
+8,103,C2,Click,2025-10-19
+9,104,C2,Conversion,2025-10-20
+10,107,C3,Click,2025-12-22
+11,108,C3,View,2025-12-23
+12,102,C2,View,2025-10-21
+13,105,C2,Conversion,2025-10-22
+14,106,C3,Click,2025-12-24
+15,101,C2,View,2025-10-23
